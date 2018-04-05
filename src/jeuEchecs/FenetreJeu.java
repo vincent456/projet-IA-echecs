@@ -131,15 +131,6 @@ public class FenetreJeu extends JFrame {
 	 *
 	 */
 	private class GestionnaireEvenement extends MouseAdapter {
-
-		Piece pieceTampon = null;
-		ImageIcon iconeTampon;
-		int ligneClic;
-		int colonneClic;
-		Position depart, arrivee;
-		String couleurControle = "blanc";
-		Position temp = null;
-
 		/**
 		 * methode s'excutant si l'on clique sur la surface de jeu. La methode determine
 		 * ensuite ou est-ce que l'on cliquer et fait les action en consequence
@@ -215,82 +206,94 @@ public class FenetreJeu extends JFrame {
 							colonneClic = j;
 						}
 				// si on a cliqu� sur une case non vide et que le tampon n'est pas null
-				if ((e.getCase(colonneClic, ligneClic).getPiece() != null | pieceTampon != null)) {
-					// si le tampon est null
-					if (pieceTampon == null) {
-						// si c'est au tour de la couleur de controle � jouer
-						if (e.getCase(colonneClic, ligneClic).getPiece().getCouleur().equals(couleurControle)) {
-							// J'initialise la piece tampon a la piece sur laquelle on a cliqu�
-							pieceTampon = e.getCase(colonneClic, ligneClic).getPiece();
-							iconeTampon = (ImageIcon) tab[colonneClic][ligneClic].getIcon();
-							temp = new Position(colonneClic, ligneClic);
-							tab[colonneClic][ligneClic]
-									.setBorder(BorderFactory.createLineBorder(new Color(255, 0, 0), 5));
-						}
+				jouerUnCoup(e, colonneClic, ligneClic);
 
-					} else {
-						// je cr�� un d�placement
-						Deplacement deplacement = new Deplacement(temp, new Position(colonneClic, ligneClic));
-						// je v�rifie si le d�placement est valide, si le chemin est possible et si il
-						// est possible, pour un pion de manger la piece
-						if ((pieceTampon.estValide(deplacement) && e.cheminPossible(deplacement))
-								| e.captureParUnPionPossible(deplacement)) {
-							// je cr�� un jLabel avec l'ic�ne de la pi�ce manger
-							JLabel manger = new JLabel(tab[colonneClic][ligneClic].getIcon());
-							manger.setHorizontalAlignment(SwingConstants.CENTER);
+			}
 
-							// je l'ajoute au bon jPanel
-							if (couleurControle.equals("blanc"))
-								panelblanc.add(manger);
-							else
-								panelnoir.add(manger);
+		}
 
-							/*
-							 * je v�rifie si la pi�ce manger est un roi, si oui le jeu est termin� et
-							 * L'utilisateurs peut choisir si il veut continuer a jouer ou non
-							 */
-							if (e.getCase(colonneClic, ligneClic).getPiece() instanceof Roi) {
-								if (JOptionPane.showConfirmDialog(null,
-										"F�licitation vous avez gagn� ! D�sirez-vous jouer de nouveau ?\n", "Mine !",
-										JOptionPane.YES_NO_OPTION) == 0) {
-									RAZ();
-									tab[temp.getColonne()][temp.getLigne()]
-											.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 0));
-								}
+	}
 
-								else
-									System.exit(0);
+	private static Piece pieceTampon = null;
+	private static ImageIcon iconeTampon;
+	private static int ligneClic;
+	private static int colonneClic;
+	private static Position depart, arrivee;
+	private static String couleurControle = "blanc";
+	private static Position temp = null;
 
-							} else// si on d�pose la piece sur une case vide
-							{
-								// on met le tampon sur la case vide et on vide le tampon apr�s
-								e.getCase(temp.getColonne(), temp.getLigne()).setPiece(null);
-								tab[temp.getColonne()][temp.getLigne()]
-										.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 0));
+	public void jouerUnCoup(Echiquier e, int colonneClic, int ligneClic) {
+		if ((e.getCase(colonneClic, ligneClic).getPiece() != null | pieceTampon != null)) {
+			// si le tampon est null
+			if (pieceTampon == null) {
+				// si c'est au tour de la couleur de controle � jouer
+				if (e.getCase(colonneClic, ligneClic).getPiece().getCouleur().equals(couleurControle)) {
+					// J'initialise la piece tampon a la piece sur laquelle on a cliqu�
+					pieceTampon = e.getCase(colonneClic, ligneClic).getPiece();
+					iconeTampon = (ImageIcon) tab[colonneClic][ligneClic].getIcon();
+					temp = new Position(colonneClic, ligneClic);
+					tab[colonneClic][ligneClic].setBorder(BorderFactory.createLineBorder(new Color(255, 0, 0), 5));
+				}
 
-								tab[colonneClic][ligneClic].setIcon(iconeTampon);
-								e.getCase(colonneClic, ligneClic).setPiece(pieceTampon);
-								tab[temp.getColonne()][temp.getLigne()].setIcon(null);
+			} else {
+				// je cr�� un d�placement
+				Deplacement deplacement = new Deplacement(temp, new Position(colonneClic, ligneClic));
+				// je v�rifie si le d�placement est valide, si le chemin est possible et si il
+				// est possible, pour un pion de manger la piece
+				if ((pieceTampon.estValide(deplacement) && e.cheminPossible(deplacement))
+						| e.captureParUnPionPossible(deplacement)) {
+					// je cr�� un jLabel avec l'ic�ne de la pi�ce manger
+					JLabel manger = new JLabel(tab[colonneClic][ligneClic].getIcon());
+					manger.setHorizontalAlignment(SwingConstants.CENTER);
 
-								pieceTampon = null;
-								iconeTampon = null;
-								temp = null;
+					// je l'ajoute au bon jPanel
+					if (couleurControle.equals("blanc"))
+						panelblanc.add(manger);
+					else
+						panelnoir.add(manger);
 
-								couleurControle = couleurControle.equals("blanc") ? "noir" : "blanc";
-								if (couleurControle.equals("noir"))
-									IA.jouer(e, "noir");
-								champTexte.setText("C'est le tour aux " + couleurControle);
-							}
-						} else {
+					/*
+					 * je v�rifie si la pi�ce manger est un roi, si oui le jeu est termin� et
+					 * L'utilisateurs peut choisir si il veut continuer a jouer ou non
+					 */
+					if (e.getCase(colonneClic, ligneClic).getPiece() instanceof Roi) {
+						if (JOptionPane.showConfirmDialog(null,
+								"F�licitation vous avez gagn� ! D�sirez-vous jouer de nouveau ?\n", "Mine !",
+								JOptionPane.YES_NO_OPTION) == 0) {
+							RAZ();
 							tab[temp.getColonne()][temp.getLigne()]
 									.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 0));
-							pieceTampon = null;
-							iconeTampon = null;
-							temp = null;
-
 						}
 
+						else
+							System.exit(0);
+
+					} else// si on d�pose la piece sur une case vide
+					{
+						// on met le tampon sur la case vide et on vide le tampon apr�s
+						e.getCase(temp.getColonne(), temp.getLigne()).setPiece(null);
+						tab[temp.getColonne()][temp.getLigne()]
+								.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 0));
+
+						tab[colonneClic][ligneClic].setIcon(iconeTampon);
+						e.getCase(colonneClic, ligneClic).setPiece(pieceTampon);
+						tab[temp.getColonne()][temp.getLigne()].setIcon(null);
+
+						pieceTampon = null;
+						iconeTampon = null;
+						temp = null;
+
+						couleurControle = couleurControle.equals("blanc") ? "noir" : "blanc";
+						if (couleurControle.equals("noir"))
+							IA.jouer(e, "noir");
+						champTexte.setText("C'est le tour aux " + couleurControle);
 					}
+				} else {
+					tab[temp.getColonne()][temp.getLigne()]
+							.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 0));
+					pieceTampon = null;
+					iconeTampon = null;
+					temp = null;
 
 				}
 

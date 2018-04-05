@@ -5,9 +5,19 @@ import java.util.List;
 
 import jeuEchecs.Case;
 import jeuEchecs.Echiquier;
+import jeuEchecs.FenetreJeu;
 import jeuEchecs.Piece;
 
 public class IA {
+
+	private String color;
+	private FenetreJeu fdj;
+
+	public void init(FenetreJeu fdj, String color) {
+		this.color = color;
+		this.fdj = fdj;
+	}
+
 	public static void jouer(Echiquier e, String color) {
 		Tree t = new Tree((Echiquier) e.clone());
 		List<Tree> children = buildChildren(e, t);
@@ -20,9 +30,6 @@ public class IA {
 				for (int y2 = 0; y2 < 8; y2++)
 					for (int x2 = 0; x2 < 8; x2++) {
 						Echiquier eCopy = (Echiquier) e.clone();
-						Piece pieceDep = eCopy.getCase(y, x).getPiece();
-						Piece pieceArv = eCopy.getCase(y2, x2).getPiece();
-
 					}
 			}
 		return out;
