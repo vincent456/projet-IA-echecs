@@ -45,6 +45,8 @@ public class FenetreJeu extends JFrame {
 	private JPanel panelblanc = new JPanel();
 	private JPanel panelnoir = new JPanel();
 
+	private static IA ia;
+
 	/**
 	 * Constructeur, appelle m�thode JBInit
 	 */
@@ -206,8 +208,10 @@ public class FenetreJeu extends JFrame {
 							colonneClic = j;
 						}
 				// si on a cliqu� sur une case non vide et que le tampon n'est pas null
-				jouerUnCoup(e, colonneClic, ligneClic);
-
+				if (couleurControle == "blanc" && pieceTampon == null)
+					jouerUnCoup(e, colonneClic, ligneClic, couleurControle);
+				else if (couleurControle == "blanc" && pieceTampon != null)
+					jouerUnCoup(e, colonneClic, ligneClic, couleurControle);
 			}
 
 		}
@@ -222,7 +226,11 @@ public class FenetreJeu extends JFrame {
 	private static String couleurControle = "blanc";
 	private static Position temp = null;
 
-	public void jouerUnCoup(Echiquier e, int colonneClic, int ligneClic) {
+	public static Piece getPieceTampon() {
+		return pieceTampon;
+	}
+
+	public void jouerUnCoup(Echiquier e, int colonneClic, int ligneClic, String couleurControle) {
 		if ((e.getCase(colonneClic, ligneClic).getPiece() != null | pieceTampon != null)) {
 			// si le tampon est null
 			if (pieceTampon == null) {
@@ -283,10 +291,10 @@ public class FenetreJeu extends JFrame {
 						iconeTampon = null;
 						temp = null;
 
-						couleurControle = couleurControle.equals("blanc") ? "noir" : "blanc";
-						if (couleurControle.equals("noir"))
-							IA.jouer(e, "noir");
-						champTexte.setText("C'est le tour aux " + couleurControle);
+						// couleurControle = couleurControle.equals("blanc") ? "noir" : "blanc";
+						// if (couleurControle.equals("noir"))
+						// ia.jouer(e, "noir");
+						// champTexte.setText("C'est le tour aux " + couleurControle);
 					}
 				} else {
 					tab[temp.getColonne()][temp.getLigne()]
@@ -328,5 +336,6 @@ public class FenetreJeu extends JFrame {
 		j.setVisible(true);
 		j.setLocation(100, 130);
 		j.setDefaultCloseOperation(EXIT_ON_CLOSE); // ferme le processus associ�
+		ia = new IA(j, "noir");
 	}
 }

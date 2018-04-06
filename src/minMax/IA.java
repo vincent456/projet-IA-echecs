@@ -13,29 +13,35 @@ public class IA {
 	private String color;
 	private FenetreJeu fdj;
 
-	public void init(FenetreJeu fdj, String color) {
+	public IA(FenetreJeu fdj, String color) {
 		this.color = color;
 		this.fdj = fdj;
 	}
 
-	public static void jouer(Echiquier e, String color) {
+	public void jouer(Echiquier e, String color) {
 		Tree t = new Tree((Echiquier) e.clone());
 		List<Tree> children = buildChildren(e, t);
+		System.out.println();
 	}
 
-	private static List<Tree> buildChildren(Echiquier e, Tree t) {
+	private List<Tree> buildChildren(Echiquier e, Tree t) {
 		LinkedList<Tree> out = new LinkedList<>();
 		for (int y = 0; y < 8; y++)
 			for (int x = 0; x < 8; x++) {
 				for (int y2 = 0; y2 < 8; y2++)
 					for (int x2 = 0; x2 < 8; x2++) {
 						Echiquier eCopy = (Echiquier) e.clone();
+						fdj.jouerUnCoup(eCopy, x, y, color);
+						if (FenetreJeu.getPieceTampon() != null) {
+							fdj.jouerUnCoup(eCopy, x2, y2, color);
+							out.add(new Tree(eCopy));
+						}
 					}
 			}
 		return out;
 	}
 
-	private static int value(Echiquier e, String color) {
+	private int value(Echiquier e, String color) {
 		int out = 0;
 		for (int y = 0; y < 8; y++)
 			for (int x = 0; x < 8; x++) {
