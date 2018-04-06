@@ -211,9 +211,10 @@ public class FenetreJeu extends JFrame {
 				if (couleurControle == "blanc" && pieceTampon == null)
 					jouerUnCoup(e, colonneClic, ligneClic, couleurControle);
 				else if (couleurControle == "blanc" && pieceTampon != null) {
-					jouerUnCoup(e, colonneClic, ligneClic, couleurControle);
-					couleurControle = "noir";
-					champTexte.setText("C'est le tour aux " + couleurControle);
+					if (jouerUnCoup(e, colonneClic, ligneClic, couleurControle)) {
+						couleurControle = "noir";
+						champTexte.setText("C'est le tour aux " + couleurControle);
+					}
 				}
 			}
 
@@ -233,7 +234,7 @@ public class FenetreJeu extends JFrame {
 		return pieceTampon;
 	}
 
-	public void jouerUnCoup(Echiquier e, int colonneClic, int ligneClic, String couleurControle) {
+	public boolean jouerUnCoup(Echiquier e, int colonneClic, int ligneClic, String couleurControle) {
 		if ((e.getCase(colonneClic, ligneClic).getPiece() != null | pieceTampon != null)) {
 			// si le tampon est null
 			if (pieceTampon == null) {
@@ -298,6 +299,7 @@ public class FenetreJeu extends JFrame {
 						// if (couleurControle.equals("noir"))
 						// ia.jouer(e, "noir");
 						// champTexte.setText("C'est le tour aux " + couleurControle);
+						return true;
 					}
 				} else {
 					tab[temp.getColonne()][temp.getLigne()]
@@ -311,6 +313,7 @@ public class FenetreJeu extends JFrame {
 			}
 
 		}
+		return false;
 	}
 
 	// Je remet tout les attributs de la classe a 0
