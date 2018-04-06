@@ -214,12 +214,15 @@ public class FenetreJeu extends JFrame {
 					if (jouerUnCoup(e, colonneClic, ligneClic, couleurControle)) {
 						couleurControle = "noir";
 						champTexte.setText("C'est le tour aux " + couleurControle);
+						ia.jouer(e, "noir");
+						couleurControle = "blanc";
+						champTexte.setText("C'est le tour aux " + couleurControle);
 					}
 				}
+
 			}
 
 		}
-
 	}
 
 	private static Piece pieceTampon = null;
