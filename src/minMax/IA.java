@@ -72,6 +72,9 @@ public class IA {
 						case ("Roi"):
 							out += 1000;
 							break;
+						case ("Tour"):
+							out += 5;
+							break;
 						default:
 							break;
 						}
@@ -92,6 +95,9 @@ public class IA {
 							break;
 						case ("Roi"):
 							out -= 1000;
+							break;
+						case ("Tour"):
+							out -= 5;
 							break;
 						default:
 							break;

@@ -1,4 +1,4 @@
-euEchecs;
+package jeuEchecs;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -217,6 +217,7 @@ public class FenetreJeu extends JFrame {
 						ia.jouer(e, "noir");
 						couleurControle = "blanc";
 						champTexte.setText("C'est le tour aux " + couleurControle);
+						updateGrid(e);
 					}
 				}
 
@@ -290,9 +291,9 @@ public class FenetreJeu extends JFrame {
 						tab[temp.getColonne()][temp.getLigne()]
 								.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 0));
 
-						tab[colonneClic][ligneClic].setIcon(iconeTampon);
+						// tab[colonneClic][ligneClic].setIcon(iconeTampon);
 						e.getCase(colonneClic, ligneClic).setPiece(pieceTampon);
-						tab[temp.getColonne()][temp.getLigne()].setIcon(null);
+						// tab[temp.getColonne()][temp.getLigne()].setIcon(null);
 
 						pieceTampon = null;
 						iconeTampon = null;
@@ -322,7 +323,6 @@ public class FenetreJeu extends JFrame {
 	private void updateGrid(Echiquier e) {
 		for (int y = 0; y < 8; y++)
 			for (int x = 0; x < 8; x++) {
-				ImageIcon icc;
 				Piece piece = e.getCase(y, x).getPiece();
 				if (piece == null)
 					tab[y][x].setIcon(null);
@@ -343,11 +343,12 @@ public class FenetreJeu extends JFrame {
 					case ("Roi"):
 						tab[y][x].setIcon(new ImageIcon("Icone/RB.gif"));
 						break;
+					case ("Tour"):
+						tab[y][x].setIcon(new ImageIcon("Icone/TB.gif"));
 					default:
 						break;
 					}
-				}
-				else if (piece.getCouleur() == "noir") {
+				} else if (piece.getCouleur() == "noir") {
 					switch (piece.getNom()) {
 					case ("Cavalier"):
 						tab[y][x].setIcon(new ImageIcon("Icone/CN.gif"));
@@ -364,6 +365,8 @@ public class FenetreJeu extends JFrame {
 					case ("Roi"):
 						tab[y][x].setIcon(new ImageIcon("Icone/RN.gif"));
 						break;
+					case ("Tour"):
+						tab[y][x].setIcon(new ImageIcon("Icone/TN.gif"));
 					default:
 						break;
 					}
