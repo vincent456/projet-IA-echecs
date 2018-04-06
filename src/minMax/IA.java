@@ -37,7 +37,6 @@ public class IA {
 				break;
 			}
 		}
-		System.out.println(value(e, color));
 	}
 
 	private List<Tree> buildChildren(Echiquier e, Tree t, String color) {
