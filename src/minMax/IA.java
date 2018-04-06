@@ -4,9 +4,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import jeuEchecs.Case;
+import jeuEchecs.Deplacement;
 import jeuEchecs.Echiquier;
 import jeuEchecs.FenetreJeu;
 import jeuEchecs.Piece;
+import jeuEchecs.Position;
 
 public class IA {
 
@@ -20,11 +22,14 @@ public class IA {
 
 	public void jouer(Echiquier e, String color) {
 		Tree t = new Tree((Echiquier) e.clone());
-		List<Tree> children = buildChildren(e, t);
+		List<Tree> children = buildChildren(e, t, color);
+		for (Tree tree : children) {
+			tree.setValue(value(tree.getEchiquier(), color));
+		}
 		System.out.println();
 	}
 
-	private List<Tree> buildChildren(Echiquier e, Tree t) {
+	private List<Tree> buildChildren(Echiquier e, Tree t, String color) {
 		LinkedList<Tree> out = new LinkedList<>();
 		for (int y = 0; y < 8; y++)
 			for (int x = 0; x < 8; x++) {
@@ -33,8 +38,9 @@ public class IA {
 						Echiquier eCopy = (Echiquier) e.clone();
 						fdj.jouerUnCoup(eCopy, x, y, color);
 						if (FenetreJeu.getPieceTampon() != null) {
-							fdj.jouerUnCoup(eCopy, x2, y2, color);
-							out.add(new Tree(eCopy));
+							if (fdj.jouerUnCoup(eCopy, x2, y2, color)) {
+								out.add(new Tree(t, eCopy, new Deplacement(new Position(y, x), new Position(y2, x2))));
+							}
 						}
 					}
 			}

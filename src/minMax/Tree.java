@@ -51,6 +51,22 @@ public class Tree {
 		this.value = value;
 	}
 
+	public Echiquier getEchiquier() {
+		return echiquier;
+	}
+
+	public void setEchiquier(Echiquier echiquier) {
+		this.echiquier = echiquier;
+	}
+
+	public Deplacement getDeplacement() {
+		return deplacement;
+	}
+
+	public void setDeplacement(Deplacement deplacement) {
+		this.deplacement = deplacement;
+	}
+
 	public Tree(Echiquier e) {
 		this.parent = null;
 		this.children = new LinkedList<Tree>();
