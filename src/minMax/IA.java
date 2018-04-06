@@ -49,7 +49,8 @@ public class IA {
 						fdj.jouerUnCoup(eCopy, y, x, color);
 						if (FenetreJeu.getPieceTampon() != null) {
 							if (fdj.jouerUnCoup(eCopy, y2, x2, color)) {
-								out.add(new Tree(t, eCopy, new Deplacement(new Position(y, x), new Position(y2, x2))));
+								out.add(new Tree(t, (Echiquier) e.clone(),
+										new Deplacement(new Position(y, x), new Position(y2, x2))));
 							}
 						}
 					}
