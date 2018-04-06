@@ -215,6 +215,7 @@ public class FenetreJeu extends JFrame {
 						couleurControle = "noir";
 						champTexte.setText("C'est le tour aux " + couleurControle);
 						ia.jouer(e, "noir");
+						updateGrid(e);
 						couleurControle = "blanc";
 						champTexte.setText("C'est le tour aux " + couleurControle);
 						updateGrid(e);
@@ -303,6 +304,7 @@ public class FenetreJeu extends JFrame {
 						// if (couleurControle.equals("noir"))
 						// ia.jouer(e, "noir");
 						// champTexte.setText("C'est le tour aux " + couleurControle);
+						System.out.println("true");
 						return true;
 					}
 				} else {
@@ -317,6 +319,7 @@ public class FenetreJeu extends JFrame {
 			}
 
 		}
+		System.out.println("false");
 		return false;
 	}
 

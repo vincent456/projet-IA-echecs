@@ -34,6 +34,7 @@ public class IA {
 						tree.getDeplacement().getDepart().getLigne(), color);
 				fdj.jouerUnCoup(e, tree.getDeplacement().getArrivee().getColonne(),
 						tree.getDeplacement().getArrivee().getLigne(), color);
+				break;
 			}
 		}
 		System.out.println(value(e, color));
@@ -46,9 +47,9 @@ public class IA {
 				for (int y2 = 0; y2 < 8; y2++)
 					for (int x2 = 0; x2 < 8; x2++) {
 						Echiquier eCopy = (Echiquier) e.clone();
-						fdj.jouerUnCoup(eCopy, x, y, color);
+						fdj.jouerUnCoup(eCopy, y, x, color);
 						if (FenetreJeu.getPieceTampon() != null) {
-							if (fdj.jouerUnCoup(eCopy, x2, y2, color)) {
+							if (fdj.jouerUnCoup(eCopy, y2, x2, color)) {
 								out.add(new Tree(t, eCopy, new Deplacement(new Position(y, x), new Position(y2, x2))));
 							}
 						}
