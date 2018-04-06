@@ -26,7 +26,17 @@ public class IA {
 		for (Tree tree : children) {
 			tree.setValue(value(tree.getEchiquier(), color));
 		}
-		System.out.println();
+		t.setValue(t.valueTree());
+		int valRoot = t.getValue();
+		for (Tree tree : children) {
+			if (tree.getValue() == valRoot) {
+				fdj.jouerUnCoup(e, tree.getDeplacement().getDepart().getColonne(),
+						tree.getDeplacement().getDepart().getLigne(), color);
+				fdj.jouerUnCoup(e, tree.getDeplacement().getArrivee().getColonne(),
+						tree.getDeplacement().getArrivee().getLigne(), color);
+			}
+		}
+		System.out.println(value(e, color));
 	}
 
 	private List<Tree> buildChildren(Echiquier e, Tree t, String color) {
