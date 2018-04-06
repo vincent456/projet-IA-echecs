@@ -1,4 +1,4 @@
-package jeuEchecs;
+euEchecs;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -317,6 +317,58 @@ public class FenetreJeu extends JFrame {
 
 		}
 		return false;
+	}
+
+	private void updateGrid(Echiquier e) {
+		for (int y = 0; y < 8; y++)
+			for (int x = 0; x < 8; x++) {
+				ImageIcon icc;
+				Piece piece = e.getCase(y, x).getPiece();
+				if (piece == null)
+					tab[y][x].setIcon(null);
+				else if (piece.getCouleur() == "blanc") {
+					switch (piece.getNom()) {
+					case ("Cavalier"):
+						tab[y][x].setIcon(new ImageIcon("Icone/CB.gif"));
+						break;
+					case ("Fou"):
+						tab[y][x].setIcon(new ImageIcon("Icone/FB.gif"));
+						break;
+					case ("Pion"):
+						tab[y][x].setIcon(new ImageIcon("Icone/PB.gif"));
+						break;
+					case ("Reine"):
+						tab[y][x].setIcon(new ImageIcon("Icone/DB.gif"));
+						break;
+					case ("Roi"):
+						tab[y][x].setIcon(new ImageIcon("Icone/RB.gif"));
+						break;
+					default:
+						break;
+					}
+				}
+				else if (piece.getCouleur() == "noir") {
+					switch (piece.getNom()) {
+					case ("Cavalier"):
+						tab[y][x].setIcon(new ImageIcon("Icone/CN.gif"));
+						break;
+					case ("Fou"):
+						tab[y][x].setIcon(new ImageIcon("Icone/FN.gif"));
+						break;
+					case ("Pion"):
+						tab[y][x].setIcon(new ImageIcon("Icone/PN.gif"));
+						break;
+					case ("Reine"):
+						tab[y][x].setIcon(new ImageIcon("Icone/DN.gif"));
+						break;
+					case ("Roi"):
+						tab[y][x].setIcon(new ImageIcon("Icone/RN.gif"));
+						break;
+					default:
+						break;
+					}
+				}
+			}
 	}
 
 	// Je remet tout les attributs de la classe a 0
