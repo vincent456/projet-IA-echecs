@@ -210,8 +210,11 @@ public class FenetreJeu extends JFrame {
 				// si on a cliqu� sur une case non vide et que le tampon n'est pas null
 				if (couleurControle == "blanc" && pieceTampon == null)
 					jouerUnCoup(e, colonneClic, ligneClic, couleurControle);
-				else if (couleurControle == "blanc" && pieceTampon != null)
+				else if (couleurControle == "blanc" && pieceTampon != null) {
 					jouerUnCoup(e, colonneClic, ligneClic, couleurControle);
+					couleurControle = "noir";
+					champTexte.setText("C'est le tour aux " + couleurControle);
+				}
 			}
 
 		}
