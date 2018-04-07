@@ -2,6 +2,7 @@ package minMax;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import jeuEchecs.Deplacement;
 import jeuEchecs.Echiquier;
@@ -90,19 +91,25 @@ public class Tree {
 		this.value = null;
 	}
 
-	// public Tree(Tree parent, Integer value, Echiquier e) {
-	// this.parent = parent;
-	// parent.getChildren().add(this);
-	// this.children = new LinkedList<Tree>();
-	// if (parent.getValueMinmax() == minmax.min) {
-	// this.valueMinmax = minmax.max;
-	// } else // parent.getValueMinmax()==minmax.max
-	// {
-	// this.valueMinmax = minmax.min;
-	// }
-	// this.echiquier = e;
-	// this.value = value;
-	// }
+	public List<Tree> getLeaves() {
+		List<Tree> out = new LinkedList<>();
+
+		Queue<Tree> q = new LinkedList<>();
+		q.add(this);
+		while (!q.isEmpty()) {
+			Tree t = q.remove();
+			for (Tree c : t.getChildren()) {
+				if (c != null) {
+					if (c.getChildren().size() == 0) {
+						out.add(c);
+					} else {
+						q.add(c);
+					}
+				}
+			}
+		}
+		return out;
+	}
 
 	public Integer valueTree() {
 		if (this.children.isEmpty()) {

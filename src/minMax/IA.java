@@ -1,6 +1,5 @@
 package minMax;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import jeuEchecs.Case;
@@ -22,12 +21,14 @@ public class IA {
 
 	public void jouer(Echiquier e, String color) {
 		Tree t = new Tree((Echiquier) e.clone());
-		List<Tree> children = buildChildren(e, t, color);
+		buildChildren(e, t, color);
+		List<Tree> children = t.getChildren();
 		for (Tree tree : children) {
 			tree.setValue(value(tree.getEchiquier(), color));
 		}
 		t.setValue(t.valueTree());
 		int valRoot = t.getValue();
+		System.out.println(valRoot);
 		for (Tree tree : children) {
 			if (tree.getValue() == valRoot) {
 				fdj.jouerUnCoup(e, tree.getDeplacement().getDepart().getColonne(),
@@ -39,8 +40,7 @@ public class IA {
 		}
 	}
 
-	private List<Tree> buildChildren(Echiquier e, Tree t, String color) {
-		LinkedList<Tree> out = new LinkedList<>();
+	private void buildChildren(Echiquier e, Tree t, String color) {
 		for (int y = 0; y < 8; y++)
 			for (int x = 0; x < 8; x++) {
 				for (int y2 = 0; y2 < 8; y2++)
@@ -49,12 +49,11 @@ public class IA {
 						fdj.jouerUnCoup(eCopy, y, x, color);
 						if (FenetreJeu.getPieceTampon() != null) {
 							if (fdj.jouerUnCoup(eCopy, y2, x2, color)) {
-								out.add(new Tree(t, eCopy, new Deplacement(new Position(y, x), new Position(y2, x2))));
+								new Tree(t, eCopy, new Deplacement(new Position(y, x), new Position(y2, x2)));
 							}
 						}
 					}
 			}
-		return out;
 	}
 
 	private int value(Echiquier e, String color) {
