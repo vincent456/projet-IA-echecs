@@ -10,7 +10,7 @@ public class Cavalier extends Piece {
 
 	/**
 	 * Constructeur de la classe cavalier
-	 * 
+	 *
 	 * @param Prend
 	 *            en parametre la couleur du cavalier
 	 *
@@ -21,7 +21,7 @@ public class Cavalier extends Piece {
 
 	/**
 	 * Methode estValide, sert a verifier la validite du deplacement d'un cavalier
-	 * 
+	 *
 	 * @return true ou false si le deplacement du cavalier est valide
 	 * @param Deplacement
 	 *            de la piece
@@ -32,7 +32,14 @@ public class Cavalier extends Piece {
 		 * Verifie si le quotient des deux deplacement est �gal a 2 ou � .5, se qui
 		 * garantie que la piece � fait un mouvement en "L".
 		 */
-		return (Math.abs(deplacement.getDeplacementX() / deplacement.getDeplacementY())) == 2
-				| (Math.abs(deplacement.getDeplacementX() / deplacement.getDeplacementY())) == .5;
+		return dist2(deplacement) == 5
+				&& ((Math.abs(deplacement.getDeplacementX() / deplacement.getDeplacementY())) == 2
+						| (Math.abs(deplacement.getDeplacementX() / deplacement.getDeplacementY())) == .5);
 	}
+
+	private double dist2(Deplacement deplacement) {
+		return deplacement.getDeplacementX() * deplacement.getDeplacementX()
+				+ deplacement.getDeplacementY() * deplacement.getDeplacementY();
+	}
+
 }
