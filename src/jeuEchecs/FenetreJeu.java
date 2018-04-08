@@ -214,7 +214,8 @@ public class FenetreJeu extends JFrame {
 					if (jouerUnCoup(e, colonneClic, ligneClic, couleurControle)) {
 						couleurControle = "noir";
 						champTexte.setText("C'est le tour aux " + couleurControle);
-						ia.jouer(e, "noir");
+						ia.jouer(e, "noir", 2);
+						System.out.println("value=" + ia.value(e, "noir"));
 						updateGrid(e);
 						couleurControle = "blanc";
 						champTexte.setText("C'est le tour aux " + couleurControle);
@@ -401,6 +402,6 @@ public class FenetreJeu extends JFrame {
 		j.setVisible(true);
 		j.setLocation(100, 130);
 		j.setDefaultCloseOperation(EXIT_ON_CLOSE); // ferme le processus associ�
-		ia = new IA(j, "noir");
+		ia = new IA(j);
 	}
 }
