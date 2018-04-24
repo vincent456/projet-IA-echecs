@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
+import minMax.GameVars;
 import minMax.IA;
 
 /**
@@ -142,7 +143,8 @@ public class FenetreJeu extends JFrame {
 		public void mouseClicked(MouseEvent eve) {
 			// si on clique sur le bouton d�buter
 			if (eve.getSource() == boutonDebuter) {
-				// initialise le champ texte, apelle la m�thode d�buter, et initialise toute les
+				// initialise le champ texte, apelle la m�thode d�buter, et initialise toute
+				// les
 				// variables
 				champTexte.setText("C'est le tour aux blanc");
 				boutonDebuter.setEnabled(false);
@@ -190,6 +192,15 @@ public class FenetreJeu extends JFrame {
 					ligne = 7;
 				}
 
+				if (GameVars.color == "blanc") {
+					ia.jouer(e, "blanc", GameVars.depth);
+					System.out.println("value = " + ia.value(e, "blanc"));
+					updateGrid(e);
+					couleurControle = "noir";
+					champTexte.setText("C'est le tour aux " + couleurControle);
+					updateGrid(e);
+				}
+
 			}
 			// si on clique sur le bouton reset
 			else if (eve.getSource() == boutonReset) {
@@ -207,22 +218,39 @@ public class FenetreJeu extends JFrame {
 							ligneClic = i;
 							colonneClic = j;
 						}
-				// si on a cliqu� sur une case non vide et que le tampon n'est pas null
-				if (couleurControle == "blanc" && pieceTampon == null)
-					jouerUnCoup(e, colonneClic, ligneClic, couleurControle);
-				else if (couleurControle == "blanc" && pieceTampon != null) {
-					if (jouerUnCoup(e, colonneClic, ligneClic, couleurControle)) {
-						couleurControle = "noir";
-						champTexte.setText("C'est le tour aux " + couleurControle);
-						ia.jouer(e, "noir", 2);
-						System.out.println("value=" + ia.value(e, "noir"));
-						updateGrid(e);
-						couleurControle = "blanc";
-						champTexte.setText("C'est le tour aux " + couleurControle);
-						updateGrid(e);
+				if (GameVars.color == "blanc") {
+					if (couleurControle == "noir" && pieceTampon == null)
+						jouerUnCoup(e, colonneClic, ligneClic, couleurControle);
+					else if (couleurControle == "noir" && pieceTampon != null) {
+						if (jouerUnCoup(e, colonneClic, ligneClic, couleurControle)) {
+							couleurControle = "blanc";
+							champTexte.setText("C'est le tour aux" + couleurControle);
+							ia.jouer(e, "blanc", GameVars.depth);
+							System.out.println("value =" + ia.value(e, "blanc"));
+							updateGrid(e);
+							couleurControle = "noir";
+							champTexte.setText("C'est le tour aux " + couleurControle);
+							updateGrid(e);
+						}
 					}
 				}
-
+				// si on a cliqu� sur une case non vide et que le tampon n'est pas null
+				if (GameVars.color == "noir") {
+					if (couleurControle == "blanc" && pieceTampon == null)
+						jouerUnCoup(e, colonneClic, ligneClic, couleurControle);
+					else if (couleurControle == "blanc" && pieceTampon != null) {
+						if (jouerUnCoup(e, colonneClic, ligneClic, couleurControle)) {
+							couleurControle = "noir";
+							champTexte.setText("C'est le tour aux " + couleurControle);
+							ia.jouer(e, "noir", GameVars.depth);
+							System.out.println("value=" + ia.value(e, "noir"));
+							updateGrid(e);
+							couleurControle = "blanc";
+							champTexte.setText("C'est le tour aux " + couleurControle);
+							updateGrid(e);
+						}
+					}
+				}
 			}
 
 		}
@@ -256,7 +284,8 @@ public class FenetreJeu extends JFrame {
 			} else {
 				// je cr�� un d�placement
 				Deplacement deplacement = new Deplacement(temp, new Position(colonneClic, ligneClic));
-				// je v�rifie si le d�placement est valide, si le chemin est possible et si il
+				// je v�rifie si le d�placement est valide, si le chemin est possible et si
+				// il
 				// est possible, pour un pion de manger la piece
 				if ((pieceTampon.estValide(deplacement) && e.cheminPossible(deplacement))
 						| e.captureParUnPionPossible(deplacement)) {

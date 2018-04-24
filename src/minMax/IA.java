@@ -46,7 +46,9 @@ public class IA {
 			return t;
 		}
 		List<Tree> out = new LinkedList<>();
+		int i = 0;
 		for (Tree tree : t) {
+			System.out.println(i++ + "/" + t.size());
 			out.addAll(buildChildren(e, buildDirectChildren(e, tree, color), color, depth + 1, maxdepth));
 		}
 		return out;
