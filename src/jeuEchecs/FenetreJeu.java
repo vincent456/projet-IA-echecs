@@ -427,6 +427,16 @@ public class FenetreJeu extends JFrame {
 
 	// main pour pouvoir exï¿½cuter l'interface graphique
 	public static void main(String[] args) {
+		if (args.length < 2)
+			System.out.println(
+					"entrez les paramètres : profondeur de l'arbre de recherche puis couleur de l'IA (\"noir\" ou \"blanc\") ");
+		else {
+			int depth = Integer.valueOf(args[0]);
+			String color = args[1];
+			GameVars.depth = depth;
+			GameVars.color = color;
+		}
+		System.out.println("profondeur = " + GameVars.depth + ", couleur IA = " + GameVars.color);
 		FenetreJeu j = new FenetreJeu();
 		j.setVisible(true);
 		j.setLocation(100, 130);
